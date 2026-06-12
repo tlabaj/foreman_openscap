@@ -1,5 +1,7 @@
-<% javascript 'foreman_openscap/scap_hosts_show' %>
 <% stylesheet 'foreman_openscap/scap_breakdown_chart' %>
+<% content_for(:javascripts) do %>
+  <%= webpacked_plugins_js_for :foreman_openscap %>
+<% end %>
 
 <%= breadcrumbs(:resource_url => api_hosts_path,
                 :resource_filter => "is_compliance_host = true",
@@ -8,7 +10,7 @@
 <% title n_("%s compliance report by policy", "%s compliance reports by policy" , @host.combined_policies.length) % @host.to_label %>
 <% @host.combined_policies.each do |policy| %>
   <h2 class="center-block"><%= _('Policy %s') % policy %></h2>
-  <div class="row">
+  <div class="row compliance-host-policy-row">
     <% data = ForemanOpenscap::HostReportDashboard::Data.new(policy, @host) %>
     <% if data.has_data? %>
     <div class="col-md-4">
@@ -26,7 +28,7 @@
     <div class="col-md-8">
       <div class="stats-well">
         <h4 class="ca"><%= _("%s reports over time") % policy %></h4>
-        <%= react_component('LineChart', host_arf_reports_chart_data(policy.id)) %>
+        <%= react_component('OpenscapLineChart', host_arf_reports_chart_data(policy.id)) %>
       </div>
     </div>
     <% else %>
