@@ -22,6 +22,7 @@ import {
   clampChartPadding,
   getTimeseriesXDomain,
   buildLineChartLegendData,
+  formatTooltipValue,
 } from './LineChartHelpers';
 
 jest.unmock('./');
@@ -103,6 +104,18 @@ describe('buildLineChartLegendData', () => {
       symbol: { type: 'eyeSlash' },
     });
     expect(legendData[1].symbol.fill).toBeDefined();
+  });
+});
+
+describe('formatTooltipValue', () => {
+  it('formats rule counts as whole numbers', () => {
+    expect(formatTooltipValue(10)).toBe('10');
+    expect(formatTooltipValue(10.0)).toBe('10');
+    expect(formatTooltipValue(0)).toBe('0');
+  });
+
+  it('rounds non-integer values', () => {
+    expect(formatTooltipValue(6.7)).toBe('7');
   });
 });
 

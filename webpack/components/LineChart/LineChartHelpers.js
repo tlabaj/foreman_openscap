@@ -107,6 +107,16 @@ export const getYTickValues = (chartData, hiddenSeries = new Set()) => {
   return [0, 1, 2, 3, 4, 5].map(i => Math.round(i * step * 10) / 10);
 };
 
+/** Rule counts are whole numbers; avoid decimal formatting in tooltips. */
+export const formatTooltipValue = value => {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return '';
+  if (Math.abs(num) >= 1e21) {
+    return num.toExponential(1);
+  }
+  return String(Math.round(num));
+};
+
 export const sanitizeChartDimension = (value, fallback) => {
   const n = Number(value);
   return Number.isFinite(n) && n > 0 ? n : fallback;

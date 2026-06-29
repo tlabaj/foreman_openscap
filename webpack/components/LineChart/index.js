@@ -40,6 +40,7 @@ import {
   clampChartPadding,
   getTimeseriesXDomain,
   buildLineChartLegendData,
+  formatTooltipValue,
 } from './LineChartHelpers';
 import './LineChart.scss';
 
@@ -206,7 +207,7 @@ const LineChart = ({
         containerComponent={
           <CursorVoronoiContainer
             cursorDimension="x"
-            labels={({ datum }) => formatYAxisTick(datum.y)}
+            labels={({ datum }) => formatTooltipValue(datum.y)}
             labelComponent={
               <ChartLegendTooltip
                 legendData={legendData}
